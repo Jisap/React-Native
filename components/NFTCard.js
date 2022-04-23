@@ -1,0 +1,79 @@
+import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { View, Image } from "react-native";
+
+import { COLORS, SIZES, SHADOWS, assets } from "../constants";
+import { CircleButton, RectButton } from "./Buttons";
+import { SubInfo, EthPrice, NFTTitle } from "./SubInfo";
+
+
+const NFTCard = ({ data }) => {
+
+  const navigation = useNavigation(); // Hook to access the navigation prop of the parent screen anywhere.
+
+  return (
+    <View
+       style={{
+        backgroundColor: COLORS.white,
+        borderRadius: SIZES.font,
+        marginBottom: SIZES.extraLarge,
+        margin: SIZES.base,
+        ...SHADOWS.dark,
+      }}
+    >
+      <View
+        style={{
+          width: "100%",
+          height: 250,
+        }}
+      >
+        <Image                                                       // Imagen de la NFT
+          source={ data.image }
+          resizeMode="cover"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderTopLeftRadius: SIZES.font,
+            borderTopRightRadius: SIZES.font,
+          }}
+        />
+
+        <CircleButton                                               // Botón de favoritos en la esquina superior derecha                      
+          imgUrl={assets.heart} right={10} top={10} />  
+      </View>
+
+      <SubInfo                                                      // Subinfo de la NFT: People y endDate
+      />                                                   
+
+      <View                                                         // Titulo y subtitulo de la NFT
+        style={{ width: "100%", padding: SIZES.font }}>       
+        <NFTTitle
+          title={ data.name }
+          subTitle={ data.creator }
+          titleSize={ SIZES.large }
+          subTitleSize={ SIZES.small }
+        />
+
+         <View
+          style={{
+            marginTop: SIZES.font,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <EthPrice                                                 // Precio de la NFT
+            price={data.price} />   
+          <RectButton                                               // Botón de comprar
+            minWidth={120}
+            fontSize={SIZES.font}                 //route     //params  
+            handlePress={() => navigation.navigate("Details", { data })}
+          />
+        </View>
+      </View>
+      
+    </View>
+  )
+}
+
+export default NFTCard
